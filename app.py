@@ -4,7 +4,6 @@ import os
 
 app = Flask(__name__)
 
-# Inicializa el cliente de OpenAI correctamente
 client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
 
 @app.route("/", methods=["GET", "POST"])

@@ -45,10 +45,10 @@ Respondé en lenguaje claro, profesional y directo.
 """
 
     try:
-        respuesta = client.chat.completions.create(
-            model="gpt-4",
-            messages=[{"role": "user", "content": prompt}],
-            max_tokens=500
+       respuesta = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+    messages=[{"role": "user", "content": prompt}],
+    max_tokens=500
         )
         return jsonify({"respuesta": respuesta.choices[0].message.content})
     except Exception as e:

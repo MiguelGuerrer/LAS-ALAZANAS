@@ -22,8 +22,7 @@ def index():
         except Exception as e:
             return jsonify({"respuesta": f"Error: {str(e)}"})
 
-    return render_template("index.html")  # <--- esta va al nivel de def index()
-
+    return render_template("index.html")
 
 if __name__ == "__main__":
     app.run(debug=True)

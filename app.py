@@ -44,15 +44,16 @@ Pregunta: {pregunta}
 Respondé en lenguaje claro, profesional y directo.
 """
 
-    try:
-       respuesta = client.chat.completions.create(
-    model="gpt-3.5-turbo",
-    messages=[{"role": "user", "content": prompt}],
-    max_tokens=500
-        )
-        return jsonify({"respuesta": respuesta.choices[0].message.content})
-    except Exception as e:
-        return jsonify({"respuesta": f"Error: {str(e)}"})
+try:
+    respuesta = client.chat.completions.create(
+        model="gpt-3.5-turbo",
+        messages=[{"role": "user", "content": prompt}],
+        max_tokens=500
+    )
+    return jsonify({"respuesta": respuesta.choices[0].message.content})
+except Exception as e:
+    return jsonify({"respuesta": f"Error: {str(e)}"})
+
 
 if __name__ == "__main__":
     port = int(os.environ.get("PORT", 5000))

@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Asistente de Caballos</title>
+  <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+  <h1>Asistente de Caballos</h1>
+  <input type="text" id="pregunta" placeholder="Escribí tu pregunta...">
+  <button onclick="enviarPregunta()">Preguntar</button>
+  <p id="respuesta"></p>
+  <script>
+    async function enviarPregunta() {
+      const pregunta = document.getElementById("pregunta").value;
+      const res = await fetch("/preguntar", {
+        method: "POST",
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({pregunta})
+      });
+      const data = await res.json();
+      document.getElementById("respuesta").innerText = data.respuesta;
+    }
+  </script>
+</body>
+</html>

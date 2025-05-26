@@ -1,12 +1,13 @@
 import os
 import requests
 from flask import Flask, render_template, request, jsonify
-import openai
+from openai import OpenAI
 
 app = Flask(__name__)
 
-# Claves API desde variables de entorno
-openai.api_key = os.getenv("OPENAI_API_KEY")
+# Cliente de OpenAI actualizado
+client = OpenAI(api_key=os.getenv("OPENAI_API_KEY"))
+
 AIRTABLE_API_KEY = os.getenv("AIRTABLE_API_KEY")
 AIRTABLE_BASE_ID = os.getenv("AIRTABLE_BASE_ID")
 AIRTABLE_TABLE_NAME = os.getenv("AIRTABLE_TABLE_NAME")
@@ -36,19 +37,20 @@ def preguntar():
     pregunta = request.json.get("pregunta")
     datos = get_airtable_data()
 
-    prompt = f'''Sos un experto en caballos de polo. Esta es la base de datos:
+    prompt = f"""Sos un experto en caballos de polo. Estos son los datos de la base:
 {datos}
 
 Pregunta: {pregunta}
-Respondé de forma clara y directa según los datos.'''
+Respondé en lenguaje claro, profesional y directo.
+"""
 
     try:
-        respuesta = openai.ChatCompletion.create(
-            model="gpt-4-1106-preview",
+        respuesta = client.chat.completions.create(
+            model="gpt-4",
             messages=[{"role": "user", "content": prompt}],
             max_tokens=500
         )
-        return jsonify({"respuesta": respuesta["choices"][0]["message"]["content"]})
+        return jsonify({"respuesta": respuesta.choices[0].message.content})
     except Exception as e:
         return jsonify({"respuesta": f"Error: {str(e)}"})
 
